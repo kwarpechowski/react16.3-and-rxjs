@@ -16,7 +16,7 @@ export class App extends Component {
 
     start() {
         this.subscription = this.interval.subscribe(value =>
-            this.setState({ value })
+            this.setState({ value });
         );
     };
 

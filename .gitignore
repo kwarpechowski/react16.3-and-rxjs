@@ -1,5 +1,5 @@
 yarn.lock
 package-lock.json
-dist
+dist/*.js
 node_modules
 .idea

@@ -3,3 +3,4 @@ package-lock.json
 dist/*.js
 node_modules
 .idea
+yarn-error.log

@@ -1,2 +1,2 @@
 import { createContext } from 'react';
-export default createContext({value: null});
+export const CounterContext =  createContext({value: null});

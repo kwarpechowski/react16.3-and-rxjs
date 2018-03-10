@@ -4,50 +4,52 @@ import CounterContext from './CounterContext';
 
 export class App extends Component {
 
-    static interval_time = 1000;
+  static interval_time = 1000;
 
-    state = {
-        isActive: true,
-        value: null
-    };
+  state = {
+    isActive: true,
+    value: null
+  };
 
-    componentWillMount() {
-        this.interval = interval(App.interval_time)
-            .filter(val => val % 2 === 0)
-            .scan((acc, curr) =>  acc + curr, 0)
-            .map(val => `Hello from interval - ${val}`);
-        this.start();
+  componentWillMount() {
+    this.interval = interval(App.interval_time)
+      .filter(val => val % 2 === 0)
+      .scan((acc, curr) =>  acc + curr, 0)
+      .map(val => `Hello from interval - ${val}`);
+    this.start();
+  }
+
+  start() {
+    this.subscription = this.interval.subscribe(value =>
+      this.setState({ value })
+    );
+  };
+
+  toggleAction = () => {
+    if (this.state.isActive) {
+      this.subscription.unsubscribe();
+      this.setState({
+        isActive: false
+      });
+    } else {
+      this.setState({
+        isActive: true
+      });
+      this.start();
     }
+  };
 
-    start() {
-        this.subscription = this.interval.subscribe(value =>
-            this.setState({ value })
-        );
-    };
+  render() {
+    const { Provider } = CounterContext;
+    const { toggleAction, state, props: { children } } = this;
 
-    toggleAction = () => {
-        if (this.state.isActive) {
-            this.subscription.unsubscribe();
-            this.setState({
-                isActive: false
-            });
-        } else {
-            this.setState({
-                isActive: true
-            });
-            this.start();
-        }
-    };
-
-    render() {
-        const { Provider } = CounterContext;
-        const { toggleAction } = this;
-
-        return <Provider value={{
-                ...this.state,
-                actions: { toggleAction }
-            }}>
-            {this.props.children}
-            </Provider>
-    }
+    return <Provider
+      value={{
+        ...state,
+        actions: { toggleAction }
+      }}
+    >
+      {children}
+    </Provider>
+  }
 }

@@ -6,7 +6,6 @@ import { App } from './App';
 import { CounterButton } from './CounterButton';
 import { CounterDisplay } from './CounterDisplay';
 
-
 ReactDOM.render(
     <App>
         <CounterButton />
@@ -16,6 +15,3 @@ ReactDOM.render(
     </App>,
     document.getElementById('app')
 );
-
-
-module.hot.accept();

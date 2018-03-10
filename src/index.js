@@ -7,11 +7,17 @@ import { CounterButton } from './CounterButton';
 import { CounterDisplay } from './CounterDisplay';
 
 ReactDOM.render(
-    <App>
-        <CounterButton />
-        <h1>
-            <CounterDisplay />
-        </h1>
-    </App>,
-    document.getElementById('app')
+  <App>
+    <CounterButton />
+    <h1>
+      <CounterDisplay />
+    </h1>
+    <p>
+      Other instance display:
+      <strong>
+        <CounterDisplay />
+      </strong>
+    </p>
+  </App>,
+  document.getElementById('app')
 );

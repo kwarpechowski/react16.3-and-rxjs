@@ -4,13 +4,18 @@ import CounterContext from './CounterContext';
 
 export class App extends Component {
 
+    static interval_time = 1000;
+
     state = {
         isActive: true,
         value: null
     };
 
     componentWillMount() {
-        this.interval = interval(1000).map(val => `Hello from interval - ${val}`);
+        this.interval = interval(App.interval_time)
+            .filter(val => val % 2 === 0)
+            .scan((acc, curr) =>  acc + curr, 0)
+            .map(val => `Hello from interval - ${val}`);
         this.start();
     }
 

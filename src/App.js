@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { interval } from 'rxjs/observable/interval';
-import { CounterContext } from './CounterContext';
+import { CounterContext } from './conetxt';
 
 export class App extends Component {
 
@@ -12,15 +12,16 @@ export class App extends Component {
   };
 
   componentWillMount() {
-    this.interval = interval(App.interval_time)
+    this.observer = interval(App.interval_time)
+      .take(60)
       .filter(val => val % 2 === 0)
       .scan((acc, curr) =>  acc + curr, 0)
-      .map(val => `Hello from interval - ${val}`);
+      .map(val => `counter = ${val}`);
     this._start();
   }
 
   _start() {
-    this.subscription = this.interval.subscribe(value =>
+    this.subscription = this.observer.subscribe(value =>
       this.setState({ value })
     );
   };
@@ -46,7 +47,8 @@ export class App extends Component {
     return <Provider
       value={{
         ...state,
-        actions: { toggleAction }
+        actions: { toggleAction },
+        observer: this.observer
       }}
     >
       {children}

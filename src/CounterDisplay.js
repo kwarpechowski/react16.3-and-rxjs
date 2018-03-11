@@ -1,5 +1,5 @@
 import React from 'react';
-import { CounterContext } from './CounterContext';
+import { CounterContext } from './conetxt';
 
 export const CounterDisplay = () => (
   <CounterContext.Consumer>

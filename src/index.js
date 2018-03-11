@@ -9,6 +9,7 @@ import { NamesProvider } from './NamesProvider';
 import { NamesDisplay } from './NameDisplay';
 import { MergeProvider } from './MergeProvider';
 import { MergeDisplay } from './MergeDisplay';
+import { CounterContext, NamesContext } from './conetxt';
 
 ReactDOM.render(
   <NamesProvider>
@@ -17,7 +18,7 @@ ReactDOM.render(
       <h1>
         <CounterDisplay /> - <NamesDisplay />
       </h1>
-      <MergeProvider>
+      <MergeProvider contexts={[CounterContext, NamesContext]}>
         <div style={{border: '1px solid red'}}>
           <p>Inside merge provider</p>
           <MergeDisplay />

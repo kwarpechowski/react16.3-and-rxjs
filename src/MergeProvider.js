@@ -1,40 +1,37 @@
-import React, { Component, Fragment } from 'react';
-import { CounterContext, NamesContext, MergeContext } from './conetxt';
+import React, { Component } from 'react';
+import { MergeContext } from './conetxt';
 import { merge } from 'rxjs/observable/merge';
 
 export class MergeProvider extends Component {
 
-  isRunned = false;
-
   state = {
-    data: []
+    data: [],
+    isCompleted: false
   };
 
-  setObservers(counterObserver, nameObserver) {
-    if (!this.isRunned) {
-      this.isRunned = true;
-      merge(counterObserver, nameObserver)
-        .subscribe(val => {
-          this.setState(({data}) => ({
-            data: [...data, val]
-          }))
+  static defaultProps = {
+    contexts: []
+  };
+
+  componentWillMount() {
+    const observers = this.props.contexts.map(({Consumer: { currentValue: { observer } }}) => observer);
+
+    merge(...observers)
+      .subscribe(val => {
+        this.setState(({data}) => ({
+          data: [val, ...data]
+        }));
+      }, () => null, () => {
+        this.setState({
+          isCompleted: true
         })
-    }
+      })
   }
 
 
-  render = () => (
-    <Fragment>
-      <CounterContext.Consumer>
-        {({observer: counter}) => (
-          <NamesContext.Consumer>
-            {({observer: name}) => this.setObservers(counter, name)}
-          </NamesContext.Consumer>
-        )}
-      </CounterContext.Consumer>
-      <MergeContext.Provider value={this.state.data.join(', ')}>
-        {this.props.children}
-      </MergeContext.Provider>
-    </Fragment>
-  );
+  render() {
+    return <MergeContext.Provider value={this.state}>
+      {this.props.children}
+    </MergeContext.Provider>
+  }
 }

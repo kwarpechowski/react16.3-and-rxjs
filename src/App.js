@@ -13,9 +13,9 @@ export class App extends Component {
 
   componentWillMount() {
     this.observer = interval(App.interval_time)
-      .take(60)
       .filter(val => val % 2 === 0)
       .scan((acc, curr) =>  acc + curr, 0)
+      .take(10)
       .map(val => `counter = ${val}`);
     this._start();
   }

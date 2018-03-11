@@ -10,6 +10,7 @@ import { NamesDisplay } from './NameDisplay';
 import { MergeProvider } from './MergeProvider';
 import { MergeDisplay } from './MergeDisplay';
 import { CounterContext, NamesContext } from './conetxt';
+import { EventProducer } from './EventProducer';
 
 ReactDOM.render(
   <NamesProvider>
@@ -24,6 +25,7 @@ ReactDOM.render(
           <MergeDisplay />
         </div>
       </MergeProvider>
+      <EventProducer />
     </App>
   </NamesProvider>,
   document.getElementById('app')
